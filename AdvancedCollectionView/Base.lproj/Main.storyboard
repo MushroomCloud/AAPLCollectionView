@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8121.17" systemVersion="15A178u" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="72V-Mp-TOC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="72V-Mp-TOC">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8101.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -39,33 +39,57 @@
                     </collectionView>
                     <navigationItem key="navigationItem" id="Thx-eR-YQI"/>
                     <connections>
-                        <segue destination="SCt-QJ-b0A" kind="push" identifier="detail" id="9Ru-qd-08k"/>
+                        <outlet property="collectionView" destination="TN8-YN-wRs" id="zzW-RR-hDK"/>
+                        <segue destination="VEZ-k2-c78" kind="push" identifier="detail" id="EXb-lv-M4X"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mFM-ui-hvO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="278" y="516"/>
         </scene>
-        <!--Cat Detail-->
-        <scene sceneID="muE-Pr-Ak4">
+        <!--Cat Detail View Controller-->
+        <scene sceneID="NGf-2I-WHY">
             <objects>
-                <collectionViewController title="Cat Detail" id="SCt-QJ-b0A" customClass="AAPLCatDetailViewController" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="iZs-B1-p7x">
+                <viewController id="VEZ-k2-c78" customClass="AAPLCatDetailViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y16-Jo-Qbi"/>
+                        <viewControllerLayoutGuide type="bottom" id="hPQ-Gi-dc9"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="GVW-mi-zW2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="iq6-fw-Phe">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewLayout key="collectionViewLayout" id="e2e-JJ-gPN" customClass="AAPLCollectionViewLayout"/>
+                                <cells/>
+                                <connections>
+                                    <outlet property="delegate" destination="VEZ-k2-c78" id="1xy-lC-c3u"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <collectionViewLayout key="collectionViewLayout" id="Lzk-Nm-idt" customClass="AAPLCollectionViewLayout"/>
-                        <cells/>
-                        <connections>
-                            <outlet property="delegate" destination="SCt-QJ-b0A" id="Fnr-aU-LAD"/>
-                        </connections>
-                    </collectionView>
-                    <navigationItem key="navigationItem" id="yqM-iJ-Xue"/>
-                </collectionViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="RLs-BA-bDx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <constraints>
+                            <constraint firstAttribute="bottomMargin" secondItem="iq6-fw-Phe" secondAttribute="bottom" id="fPs-Fk-qe6"/>
+                            <constraint firstItem="iq6-fw-Phe" firstAttribute="leading" secondItem="GVW-mi-zW2" secondAttribute="leading" id="hm0-ki-zjX"/>
+                            <constraint firstItem="iq6-fw-Phe" firstAttribute="top" secondItem="GVW-mi-zW2" secondAttribute="topMargin" id="ndI-hs-sAB"/>
+                            <constraint firstAttribute="trailing" secondItem="iq6-fw-Phe" secondAttribute="trailing" id="zED-zU-fUQ"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="u0o-os-mLK"/>
+                    <connections>
+                        <outlet property="collectionView" destination="iq6-fw-Phe" id="dz8-Ph-rVs"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AuT-mO-v8W" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="791" y="514"/>
         </scene>
     </scenes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

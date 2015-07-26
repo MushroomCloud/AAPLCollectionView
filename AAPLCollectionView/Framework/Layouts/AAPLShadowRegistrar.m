@@ -133,6 +133,7 @@
     [UIView performWithoutAnimation:^{
         [collectionView addSubview:view];
         [self applyLayoutAttributes:layoutAttributes toView:view];
+        [view removeFromSuperview];
     }];
 
     return view;

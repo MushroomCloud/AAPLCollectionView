@@ -122,10 +122,14 @@ static void * const AAPLDataSourceContext = @"DataSourceContext";
 
 - (void)setCollectionView:(UICollectionView *)collectionView
 {
+    if (![self isViewLoaded])
+    {
+        _collectionView = collectionView;
+        return;
+    }
+    
     UICollectionView *oldCollectionView = self.collectionView;
-
-    // Always call super, because we don't know EXACTLY what UICollectionViewController does in -setCollectionView:.
-    [super setCollectionView:collectionView];
+    _collectionView = collectionView;
 
     [oldCollectionView removeObserver:self forKeyPath:@"dataSource" context:AAPLDataSourceContext];
 
