@@ -17,7 +17,7 @@
 - (void)setItems:(NSArray *)items animated:(BOOL)animated
 {
     // Before we call super, we need to check the type of the AAPLKeyValueItem instances we were passed
-    for (AAPLKeyValueItem *keyValueItem in items) {
+    for (__unused AAPLKeyValueItem *keyValueItem in items) {
         NSAssert(AAPLKeyValueItemTypeDefault == keyValueItem.itemType, @"AAPLTextValueDataSource only supports default key value items");
     }
 

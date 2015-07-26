@@ -1,10 +1,10 @@
 Pod::Spec.new do |spec|
   spec.name   = 'AAPLCollectionView'
   spec.version  = '0.0.1'
-  spec.summary  = 'This is a copy of the framework from Apple\'s AdvancedCollectionView sample code, with Xcode 7 and iOS 9 features removed for use in Xcode 6.4 and earlier.'
+  spec.summary  = 'UICollectionView framework from Apple\'s AdvancedCollectionView sample code, with features removed for compatibility with Xcode < 6.4.'
   spec.homepage = 'http://www.mushroomcloud.co.za'
   spec.author   = { 'Rayman Rosevear' => 'ray@mushroomcloud.co.za' }
-  spec.source   = { :git => 'git@github.com:MushroomCloud/AAPLCollectionView.git', :tag => '0.0.1' }
+  spec.source   = { :git => 'https://github.com/MushroomCloud/AAPLCollectionView', :tag => '0.0.1' }
   spec.platform = :ios, '7.0'
   spec.license  = 'Apache License, Version 2.0'
 

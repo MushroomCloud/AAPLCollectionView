@@ -17,7 +17,9 @@
 #import "AAPLDataSourceMetrics_Private.h"
 #import "AAPLDebug.h"
 
+#if DEBUG
 static void *AAPLPerformUpdateQueueSpecificKey = "AAPLPerformUpdateQueueSpecificKey";
+#endif // DEBUG
 
 #define AAPL_ASSERT_MAIN_THREAD NSAssert([NSThread isMainThread], @"This method must be called on the main thread")
 

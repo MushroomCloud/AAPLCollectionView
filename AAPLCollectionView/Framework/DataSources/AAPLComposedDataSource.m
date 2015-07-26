@@ -555,8 +555,7 @@
     NSInteger localSection = [mapping localSectionForGlobalSection:section];
     AAPLDataSource *dataSource = mapping.dataSource;
 
-    NSInteger numberOfSections = [dataSource numberOfSectionsInCollectionView:wrapper];
-    NSAssert(localSection < numberOfSections, @"local section is out of bounds for composed data source");
+    NSAssert(localSection < [dataSource numberOfSectionsInCollectionView:wrapper], @"local section is out of bounds for composed data source");
 
     return [dataSource collectionView:wrapper numberOfItemsInSection:localSection];
 }

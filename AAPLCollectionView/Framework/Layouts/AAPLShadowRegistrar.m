@@ -123,8 +123,7 @@
         view = topLevelObjects.firstObject;
 
         NSAssert(view && [view isKindOfClass:[UICollectionReusableView class]], @"invalid nib registered for identifier (%@) - nib must contain exactly one top level object which must be a UICollectionReusableView instance", identifier);
-        NSString* viewReuseIdentifier = view.reuseIdentifier;
-        NSAssert(viewReuseIdentifier.length == 0 || [viewReuseIdentifier isEqualToString:identifier], @"view reuse identifier in nib (%@) does not match the identifier used to register the nib (%@)", viewReuseIdentifier, identifier);
+        NSAssert(view.reuseIdentifier.length == 0 || [view.reuseIdentifier isEqualToString:identifier], @"view reuse identifier in nib (%@) does not match the identifier used to register the nib (%@)", view.reuseIdentifier, identifier);
     }
 
     shadowRegistration.reusableView = view;
