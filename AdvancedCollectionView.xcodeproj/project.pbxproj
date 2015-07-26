@@ -185,7 +185,7 @@
 		6D8299F81B65306E008DE05B /* detail-serval.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "detail-serval.json"; sourceTree = "<group>"; };
 		6D8299F91B65306E008DE05B /* detail-snow-leopard.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "detail-snow-leopard.json"; sourceTree = "<group>"; };
 		6D8299FA1B65306E008DE05B /* detail-tiger.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "detail-tiger.json"; sourceTree = "<group>"; };
-		6D829A0D1B6531D5008DE05B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		6D829A0D1B6531D5008DE05B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		6D829AAC1B65443F008DE05B /* AAPLCollectionView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AAPLCollectionView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D829AAF1B65443F008DE05B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6D829AB01B65443F008DE05B /* AAPLCollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLCollectionView.h; sourceTree = "<group>"; };
@@ -912,6 +912,7 @@
 				6D8299011B652EC5008DE05B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6D829AC51B65443F008DE05B /* Build configuration list for PBXNativeTarget "AAPLCollectionView" */ = {
 			isa = XCConfigurationList;
@@ -920,6 +921,7 @@
 				6D829AC71B65443F008DE05B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
