@@ -57,10 +57,7 @@ static void * const AAPLDataSourceContext = @"DataSourceContext";
 // ContentInset handling for Keyboard
 @property (nonatomic) BOOL assignedContentInsets;
 @property (nonatomic) BOOL calculatedContentInsets;
-@property (nonatomic) BOOL calculatedTabBarHiddenValue;
-@property (nonatomic) BOOL calculatedNavigationBarHiddenValue;
-@property (nonatomic) UIInterfaceOrientation orientationForCalculatedInsets;
-@property (nonatomic) CGRect applicationFrameForCalculatedInsets;
+@property (nonatomic) BOOL adjustOffsetForInsetsOnLayout;
 @property (nonatomic) BOOL keyboardIsShowing;
 @property (nonatomic) UIEdgeInsets contentInsetsBeforeShowingKeyboard;
 @end
@@ -103,6 +100,8 @@ static void * const AAPLDataSourceContext = @"DataSourceContext";
         [dataSource registerReusableViewsWithCollectionView:wrapper];
         [dataSource setNeedsLoadContent];
     }
+    
+    self.adjustOffsetForInsetsOnLayout = YES;
 
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(observeKeyboardWillShowNotification:) name:UIKeyboardWillShowNotification object:nil];
@@ -187,76 +186,15 @@ static void * const AAPLDataSourceContext = @"DataSourceContext";
     if (_assignedContentInsets)
         return _contentInsets;
 
-    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-    CGRect bounds = [[UIScreen mainScreen] bounds];
-
-    UINavigationBar *navigationBar = self.navigationController.navigationBar;
-    UITabBar *tabBar = self.tabBarController.tabBar;
-
-    // If the content insets were calculated, and the orientation is the same, return calculated value
-    if (_calculatedContentInsets && _orientationForCalculatedInsets == orientation && CGRectEqualToRect(bounds, _applicationFrameForCalculatedInsets) && navigationBar.hidden == _calculatedNavigationBarHiddenValue && tabBar.hidden == _calculatedTabBarHiddenValue)
-        return _contentInsets;
-
-    // grab our frame in window coordinates
-    CGRect rect = [self.view convertRect:self.view.bounds toView:nil];
-
-    // No value has been assigned, so we need to compute it
-    UIApplication *application = [UIApplication sharedApplication];
-
     UIEdgeInsets insets = UIEdgeInsetsZero;
-
-    if (!application.statusBarHidden) {
-        // The status bar is WEIRD. It doesn't seem to adjust when rotated.
-        CGFloat height = (UIInterfaceOrientationIsPortrait(orientation) ? CGRectGetHeight(application.statusBarFrame) : CGRectGetWidth(application.statusBarFrame));
-
-        if (CGRectGetMinY(rect) < height)
-            insets.top += 20;
-    }
-
-    // If the navigation bar ISN'T hidden, we'll set our top inset to the bottom of the navigation bar. This allows the system to position things correctly to account for the double height status bar.
-    if (!navigationBar.hidden) {
-        // During rotation, the navigation bar (and possibly tab bar) doesn't resize immediately. Force it to have it's new size.
-        [navigationBar sizeToFit];
-        CGRect frame = [navigationBar convertRect:navigationBar.bounds toView:nil];
-
-        if (CGRectIntersectsRect(rect, frame))
-            insets.top += CGRectGetMaxY(frame) - CGRectGetMinY(frame);
-    }
-
-    if (!tabBar.hidden) {
-        // During rotation, the navigation bar (and possibly tab bar) doesn't resize immediately. Force it to have it's new size.
-        [tabBar sizeToFit];
-        CGRect frame = [tabBar convertRect:tabBar.bounds toView:nil];
-        if (CGRectIntersectsRect(rect, frame))
-            insets.bottom = CGRectGetHeight(frame);
-    }
+    
+    insets.top = [self.topLayoutGuide length];
+    insets.bottom = [self.bottomLayoutGuide length];
 
     _calculatedContentInsets = YES;
-    _orientationForCalculatedInsets = orientation;
-    _applicationFrameForCalculatedInsets = bounds;
-    _calculatedTabBarHiddenValue = tabBar.hidden;
-    _calculatedNavigationBarHiddenValue = navigationBar.hidden;
     _contentInsets = insets;
 
     return insets;
-}
-
-- (void)willTransitionToTraitCollection:(UITraitCollection *)newCollection withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
-{
-    if (!_assignedContentInsets) {
-        _orientationForCalculatedInsets = UIInterfaceOrientationUnknown;
-        _applicationFrameForCalculatedInsets = CGRectZero;
-    }
-    [super willTransitionToTraitCollection:newCollection withTransitionCoordinator:coordinator];
-}
-
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
-{
-    if (!_assignedContentInsets) {
-        _orientationForCalculatedInsets = UIInterfaceOrientationUnknown;
-        _applicationFrameForCalculatedInsets = CGRectZero;
-    }
-    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
 
 - (void)viewDidLayoutSubviews
@@ -269,6 +207,14 @@ static void * const AAPLDataSourceContext = @"DataSourceContext";
     self.collectionView.scrollIndicatorInsets = insets;
     if (!UIEdgeInsetsEqualToEdgeInsets(insets, oldInsets))
         [self.collectionView.collectionViewLayout invalidateLayout];
+    
+    if (self.adjustOffsetForInsetsOnLayout && self.collectionView.contentOffset.y == 0.0)
+    {
+        CGPoint offset = self.collectionView.contentOffset;
+        offset.y = -self.collectionView.contentInset.top;
+        self.collectionView.contentOffset = offset;
+    }
+    self.adjustOffsetForInsetsOnLayout = NO;
 }
 
 #pragma mark - Swipe to delete support
