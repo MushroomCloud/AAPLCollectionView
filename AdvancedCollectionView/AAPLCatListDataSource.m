@@ -82,7 +82,7 @@
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         AAPLCat *cat = notification.object;
-        NSMutableArray *items = [self.items mutableCopy];
+        NSMutableArray *items = [self.items mutableCopy] ?: [NSMutableArray array];
         NSUInteger position = [items indexOfObject:cat];
 
         if (cat.favorite) {
