@@ -221,6 +221,7 @@ NSInteger const AAPLGlobalSectionIndex = NSIntegerMax;
         unsigned char theme : 1;
         unsigned char padding : 1;
         unsigned char showsRowSeparator : 1;
+        unsigned char showsColumnSeparator : 1;
     } _flags;
 }
 
@@ -250,6 +251,7 @@ NSInteger const AAPLGlobalSectionIndex = NSIntegerMax;
     metrics->_numberOfColumns = _numberOfColumns;
     metrics->_padding = _padding;
     metrics->_showsColumnSeparator = _showsColumnSeparator;
+    metrics->_showsRowSeparator = _showsRowSeparator;
     metrics->_separatorInsets = _separatorInsets;
     metrics->_backgroundColor = _backgroundColor;
     metrics->_selectedBackgroundColor = _selectedBackgroundColor;
@@ -261,7 +263,6 @@ NSInteger const AAPLGlobalSectionIndex = NSIntegerMax;
     metrics->_cellLayoutOrder = _cellLayoutOrder;
     metrics->_flags = _flags;
     metrics->_theme = _theme;
-    metrics->_showsRowSeparator = _showsColumnSeparator;
     return metrics;
 }
 
@@ -320,6 +321,11 @@ NSInteger const AAPLGlobalSectionIndex = NSIntegerMax;
     AAPL_SET_PROP_AND_FLAG(showsRowSeparator, showsRowSeparator);
 }
 
+- (void)setShowsColumnSeparator:(BOOL)showsColumnSeparator
+{
+    AAPL_SET_PROP_AND_FLAG(showsColumnSeparator, showsColumnSeparator);
+}
+
 - (void)setShowsSectionSeparator:(BOOL)showsSectionSeparator
 {
     AAPL_SET_PROP_AND_FLAG(showsSectionSeparator, showsSectionSeparator);
@@ -347,6 +353,7 @@ NSInteger const AAPLGlobalSectionIndex = NSIntegerMax;
     AAPL_COPY_PROP_FROM_TO(theme, metrics, self);
     AAPL_COPY_PROP_FROM_TO(padding, metrics, self);
     AAPL_COPY_PROP_FROM_TO(showsRowSeparator, metrics, self);
+    AAPL_COPY_PROP_FROM_TO(showsColumnSeparator, metrics, self);
     AAPL_COPY_PROP_FROM_TO(showsSectionSeparator, metrics, self);
 }
 
