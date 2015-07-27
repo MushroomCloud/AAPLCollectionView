@@ -6,6 +6,8 @@
  A truncating version of UILabel that draws a more… link at the end of the text.
  */
 
+@import UIKit;
+
 NS_ASSUME_NONNULL_BEGIN
 
 

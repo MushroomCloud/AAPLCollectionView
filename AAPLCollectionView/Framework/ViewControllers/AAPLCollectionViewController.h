@@ -6,6 +6,8 @@
  A subclass of UICollectionViewController that adds support for swipe to edit and drag reordering.
  */
 
+@import UIKit;
+
 NS_ASSUME_NONNULL_BEGIN
 
 
