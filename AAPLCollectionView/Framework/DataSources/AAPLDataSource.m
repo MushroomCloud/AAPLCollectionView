@@ -379,6 +379,10 @@ static void *AAPLPerformUpdateQueueSpecificKey = "AAPLPerformUpdateQueueSpecific
     if (globalMetrics)
         return globalMetrics;
     globalMetrics = [AAPLDataSourceSectionMetrics metrics];
+    if (_sectionMetrics == nil)
+    {
+        _sectionMetrics = [NSMutableDictionary dictionary];
+    }
     _sectionMetrics[@(AAPLGlobalSectionIndex)] = globalMetrics;
     return globalMetrics;
 }
