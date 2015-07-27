@@ -49,7 +49,7 @@
 
 - (AAPLSupplementaryItem *)newFooter
 {
-    AAPLDataSourceSupplementaryItem *footer = [[AAPLDataSourceSupplementaryItem alloc] initWithElementKind:UICollectionElementKindSectionHeader];
+    AAPLDataSourceSupplementaryItem *footer = [[AAPLDataSourceSupplementaryItem alloc] initWithElementKind:UICollectionElementKindSectionFooter];
     if (!_footers)
         _footers = @[footer];
     else
