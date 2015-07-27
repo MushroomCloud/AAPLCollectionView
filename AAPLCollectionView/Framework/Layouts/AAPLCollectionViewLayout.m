@@ -694,9 +694,11 @@ typedef NS_ENUM(NSInteger, AAPLAutoScrollDirection) {
 - (void)prepareLayout
 {
     LAYOUT_LOG(@"bounds=%@", NSStringFromCGRect(self.collectionView.bounds));
-    if (!CGRectIsEmpty(self.collectionView.bounds)) {
+    // always build the layout if needed. If the collection view's bounds are empty and the content is reloaded,
+    // the application will crash if the layout has not been built.
+    //if (!CGRectIsEmpty(self.collectionView.bounds)) {
         [self buildLayout];
-    }
+    //}
 
     [super prepareLayout];
 }
