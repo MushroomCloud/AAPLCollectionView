@@ -102,7 +102,7 @@ typedef NS_ENUM(NSInteger, AAPLAutoScrollDirection) {
 @property (nonatomic) CGRect dragBounds;
 @property (nonatomic) CGSize dragCellSize;
 
-@property (nonatomic, strong) NSMutableArray *pinnableItems;
+@property (nonatomic, strong) NSMutableSet *pinnableItems;
 @property (nonatomic, strong) AAPLLayoutInfo *layoutInfo;
 @property (nonatomic, strong) AAPLLayoutInfo *oldLayoutInfo;
 
@@ -172,7 +172,7 @@ typedef NS_ENUM(NSInteger, AAPLAutoScrollDirection) {
     _scrollingTriggerEdgeInsets = UIEdgeInsetsMake(100, 100, 100, 100);
 
     _updateSectionDirections = [NSMutableDictionary dictionary];
-    _pinnableItems = [NSMutableArray array];
+    _pinnableItems = [NSMutableSet set];
     _shadowRegistrar = [[AAPLShadowRegistrar alloc] init];
 }
 
@@ -1442,6 +1442,28 @@ typedef NS_ENUM(NSInteger, AAPLAutoScrollDirection) {
     }
 }
 
+- (NSSet *)resetPinnableSupplementaryItemsIfNecessary:(NSSet *)supplementaryItems forMinY:(CGFloat)minY invalidationContext:(UICollectionViewLayoutInvalidationContext *)invalidationContext
+{
+    NSMutableSet *resetItems = [NSMutableSet setWithCapacity:supplementaryItems.count];
+    for (AAPLLayoutSupplementaryItem *supplementaryItem in supplementaryItems) {
+        AAPLCollectionViewLayoutAttributes *attributes = supplementaryItem.layoutAttributes;
+        CGRect frame = attributes.frame;
+        
+        if (frame.origin.y >= minY)
+        {
+            [invalidationContext invalidateSupplementaryElementsOfKind:attributes.representedElementKind atIndexPaths:@[attributes.indexPath]];
+        
+            attributes.pinnedHeader = NO;
+            frame.origin.y = attributes.unpinnedY;
+            attributes.frame = frame;
+            
+            [resetItems addObject:supplementaryItem];
+        }
+    }
+    
+    return resetItems;
+}
+
 - (CGFloat)applyBottomPinningToSupplementaryItems:(NSArray *)supplementaryItems maxY:(CGFloat)maxY invalidationContext:(UICollectionViewLayoutInvalidationContext *)invalidationContext
 {
     for (AAPLLayoutSupplementaryItem *supplementaryItem in [supplementaryItems reverseObjectEnumerator]) {
@@ -1461,7 +1483,7 @@ typedef NS_ENUM(NSInteger, AAPLAutoScrollDirection) {
 }
 
 // pin the attributes starting at minY as long a they don't cross maxY and return the new minY
-- (CGFloat)applyTopPinningToSupplementaryItems:(NSArray *)supplementaryItems minY:(CGFloat)originalMinY invalidationContext:(UICollectionViewLayoutInvalidationContext *)invalidationContext
+- (CGFloat)applyTopPinningToSupplementaryItems:(NSArray *)supplementaryItems minY:(CGFloat)originalMinY maxY:(CGFloat)maxY invalidationContext:(UICollectionViewLayoutInvalidationContext *)invalidationContext
 {
     __block CGFloat minY = originalMinY;
 
@@ -1473,8 +1495,14 @@ typedef NS_ENUM(NSInteger, AAPLAutoScrollDirection) {
         AAPLCollectionViewLayoutAttributes *layoutAttributes = supplementaryItem.layoutAttributes;
         CGRect frame = layoutAttributes.frame;
 
-        if (frame.origin.y < minY) {
+        if (frame.origin.y < minY)
+        {
             frame.origin.y = minY;
+            if (CGRectGetMaxY(frame) > maxY)
+            {
+                frame.origin.y = maxY - frame.size.height;
+            }
+            
             minY = CGRectGetMaxY(frame);    // we have a new pinning offset
             layoutAttributes.frame = frame;
 
@@ -1482,6 +1510,30 @@ typedef NS_ENUM(NSInteger, AAPLAutoScrollDirection) {
         }
     }];
 
+    return minY;
+}
+
+- (CGFloat)heightForPinnedSupplementaryItems:(NSArray *)supplementaryItems minY:(CGFloat)originalMinY maxY:(CGFloat)maxY
+{
+    __block CGFloat minY = originalMinY;
+    
+    [supplementaryItems enumerateObjectsUsingBlock:^(AAPLLayoutSupplementaryItem *supplementaryItem, NSUInteger idx, BOOL *stop)
+    {
+        AAPLCollectionViewLayoutAttributes *layoutAttributes = supplementaryItem.layoutAttributes;
+        CGRect frame = layoutAttributes.frame;
+        
+        if (frame.origin.y < minY)
+        {
+            frame.origin.y = minY;
+            if (CGRectGetMaxY(frame) > maxY)
+            {
+                frame.origin.y = maxY - frame.size.height;
+            }
+            
+            minY = CGRectGetMaxY(frame);
+        }
+    }];
+    
     return minY;
 }
 
@@ -1526,33 +1578,37 @@ typedef NS_ENUM(NSInteger, AAPLAutoScrollDirection) {
     CGFloat pinnableY = contentOffset.y + collectionView.contentInset.top;
     CGFloat nonPinnableY = pinnableY;
 
-    [self resetPinnableSupplementaryItems:self.pinnableItems invalidationContext:invalidationContext];
-    [self.pinnableItems removeAllObjects];
+    AAPLLayoutSection *globalSection = [self sectionInfoForSectionAtIndex:AAPLGlobalSectionIndex];
+    
+    CGFloat globalSectionHeight = [self heightForPinnedSupplementaryItems:globalSection.pinnableHeaders minY:pinnableY maxY:INFINITY];
+    NSSet *resetItems = [self resetPinnableSupplementaryItemsIfNecessary:self.pinnableItems forMinY:globalSectionHeight invalidationContext:invalidationContext];
+    [self.pinnableItems minusSet:resetItems];
 
     // Pin the headers as appropriate
-    AAPLLayoutSection *section = [self sectionInfoForSectionAtIndex:AAPLGlobalSectionIndex];
-    if (section.pinnableHeaders) {
-        pinnableY = [self applyTopPinningToSupplementaryItems:section.pinnableHeaders minY:pinnableY invalidationContext:invalidationContext];
-        [self finalizePinningForSupplementaryItems:section.pinnableHeaders zIndex:PINNED_HEADER_ZINDEX];
+    if (globalSection.pinnableHeaders) {
+        CGFloat maxY = INFINITY;
+        pinnableY = [self applyTopPinningToSupplementaryItems:globalSection.pinnableHeaders minY:pinnableY maxY:maxY invalidationContext:invalidationContext];
+        [self finalizePinningForSupplementaryItems:globalSection.pinnableHeaders zIndex:PINNED_HEADER_ZINDEX];
     }
 
-    if (section.nonPinnableHeaders && section.nonPinnableHeaders.count) {
-        [self resetPinnableSupplementaryItems:section.nonPinnableHeaders invalidationContext:invalidationContext];
-        nonPinnableY = [self applyBottomPinningToSupplementaryItems:section.nonPinnableHeaders maxY:nonPinnableY invalidationContext:invalidationContext];
-        [self finalizePinningForSupplementaryItems:section.nonPinnableHeaders zIndex:PINNED_HEADER_ZINDEX];
+    if (globalSection.nonPinnableHeaders && globalSection.nonPinnableHeaders.count) {
+        [self resetPinnableSupplementaryItems:globalSection.nonPinnableHeaders invalidationContext:invalidationContext];
+        nonPinnableY = [self applyBottomPinningToSupplementaryItems:globalSection.nonPinnableHeaders maxY:nonPinnableY invalidationContext:invalidationContext];
+        [self finalizePinningForSupplementaryItems:globalSection.nonPinnableHeaders zIndex:PINNED_HEADER_ZINDEX];
     }
 
-    if (section.backgroundAttribute) {
-        CGRect frame = section.backgroundAttribute.frame;
+    if (globalSection.backgroundAttribute) {
+        CGRect frame = globalSection.backgroundAttribute.frame;
         frame.origin.y = MIN(nonPinnableY, collectionView.bounds.origin.y);
-        CGFloat bottomY = MAX(CGRectGetMaxY([section.pinnableHeaders.lastObject frame]), CGRectGetMaxY([section.nonPinnableHeaders.lastObject frame]));
+        CGFloat bottomY = MAX(CGRectGetMaxY([globalSection.pinnableHeaders.lastObject frame]), CGRectGetMaxY([globalSection.nonPinnableHeaders.lastObject frame]));
         frame.size.height =  bottomY - frame.origin.y;
-        section.backgroundAttribute.frame = frame;
+        globalSection.backgroundAttribute.frame = frame;
     }
 
     AAPLLayoutSection *overlappingSection = [self firstSectionOverlappingYOffset:pinnableY];
     if (overlappingSection) {
-        [self applyTopPinningToSupplementaryItems:overlappingSection.pinnableHeaders minY:pinnableY invalidationContext:invalidationContext];
+        CGFloat maxY = CGRectGetMaxY(overlappingSection.frame);
+        [self applyTopPinningToSupplementaryItems:overlappingSection.pinnableHeaders minY:pinnableY maxY:maxY invalidationContext:invalidationContext];
         [self finalizePinningForSupplementaryItems:overlappingSection.pinnableHeaders zIndex:PINNED_HEADER_ZINDEX - 100];
     };
 }
