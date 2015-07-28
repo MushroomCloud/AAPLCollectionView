@@ -863,9 +863,11 @@ typedef NS_ENUM(NSInteger, AAPLAutoScrollDirection) {
     UIEdgeInsets insets = collectionView.contentInset;
     CGPoint targetContentOffset = proposedContentOffset;
     targetContentOffset.y += insets.top;
-
-    CGFloat availableHeight = CGRectGetHeight(UIEdgeInsetsInsetRect(collectionView.bounds, insets));
-    targetContentOffset.y = MIN(targetContentOffset.y, MAX(0, _layoutSize.height - availableHeight));
+    
+    // uncommenting this line will cause the header to sometimes jump when being pinned. I dont know the original
+    // purpose of this line, and havent noticed any side effects from commenting it out. yet.
+//    CGFloat availableHeight = CGRectGetHeight(UIEdgeInsetsInsetRect(collectionView.bounds, insets));
+//    targetContentOffset.y = MIN(targetContentOffset.y, MAX(0, _layoutSize.height - availableHeight));
 
     NSInteger firstInsertedIndex = [self.insertedSections firstIndex];
     if (NSNotFound != firstInsertedIndex && AAPLDataSourceSectionOperationDirectionNone != [self.updateSectionDirections[@(firstInsertedIndex)] integerValue]) {
