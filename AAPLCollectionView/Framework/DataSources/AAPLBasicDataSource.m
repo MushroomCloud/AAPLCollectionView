@@ -52,6 +52,18 @@
     [self removeItemsAtIndexes:removedIndexes];
 }
 
+- (void)loadContentWithProgress:(AAPLLoadingProgress * __nonnull)progress
+{
+    if (self.items.count > 0)
+    {
+        [progress done];
+    }
+    else
+    {
+        [progress updateWithNoContent:^(id object){}];
+    }
+}
+
 - (void)setItems:(NSArray *)items
 {
     [self setItems:items animated:NO];

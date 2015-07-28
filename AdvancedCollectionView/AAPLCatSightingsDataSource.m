@@ -50,9 +50,18 @@
             return;
         }
 
-        [progress updateWithContent:^(AAPLCatSightingsDataSource *me){
-            me.items = sightings;
-        }];
+        if (sightings.count > 0)
+        {
+            [progress updateWithContent:^(AAPLCatSightingsDataSource *me){
+                me.items = sightings;
+            }];
+        }
+        else
+        {
+            [progress updateWithNoContent:^(AAPLCatSightingsDataSource *me){
+                me.items = sightings;
+            }];
+        }
     }];
 }
 
