@@ -98,7 +98,10 @@ static void * const AAPLDataSourceContext = @"DataSourceContext";
     if ([dataSource isKindOfClass:[AAPLDataSource class]]) {
         UICollectionView *wrapper = [AAPLCollectionViewWrapper wrapperForCollectionView:collectionView mapping:nil];
         [dataSource registerReusableViewsWithCollectionView:wrapper];
-        [dataSource setNeedsLoadContent];
+        if ([dataSource.loadingState isEqualToString:AAPLLoadStateInitial])
+        {
+            [dataSource setNeedsLoadContent];
+        }
     }
     
     self.adjustOffsetForInsetsOnLayout = YES;
