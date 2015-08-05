@@ -110,7 +110,7 @@
 
     NSLayoutConstraint *actionButtonRightMargin = [NSLayoutConstraint constraintWithItem:_actionButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailingMargin multiplier:1 constant:0];
     NSLayoutConstraint *actionButtonLeftMargin = [NSLayoutConstraint constraintWithItem:_actionButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_rightLabel attribute:NSLayoutAttributeTrailing multiplier:1 constant:5];
-    NSLayoutConstraint *actionButtonBaseline = [NSLayoutConstraint constraintWithItem:_actionButton attribute:NSLayoutAttributeBaseline relatedBy:NSLayoutRelationEqual toItem:_rightLabel attribute:NSLayoutAttributeBaseline multiplier:1 constant:0];
+    NSLayoutConstraint *actionButtonBaseline = [NSLayoutConstraint constraintWithItem:_actionButton attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_rightLabel attribute:NSLayoutAttributeCenterY multiplier:1 constant:0];
 
     _rightLabelMarginConstraint.active = NO;
     actionButtonLeftMargin.active = YES;
