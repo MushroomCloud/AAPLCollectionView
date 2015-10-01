@@ -582,7 +582,7 @@ static void * const AAPLDataSourceContext = @"DataSourceContext";
 
         for (NSIndexPath *indexPath in supplementaryIndexPaths) {
             AAPLDataSource *localDataSource = [dataSource dataSourceForSectionAtIndex:indexPath.section];
-            UICollectionReusableView *view = [self collectionView:collectionView visibleViewForSupplementaryElementOfKind:kind atIndexPath:indexPath];
+            UICollectionReusableView *view = [collectionView aapl_supplementaryViewOfKind:kind atIndexPath:indexPath];
             NSIndexPath *localIndexPath = [dataSource localIndexPathForGlobalIndexPath:indexPath];
             supplementaryItem.configureView(view, localDataSource, localIndexPath);
         }

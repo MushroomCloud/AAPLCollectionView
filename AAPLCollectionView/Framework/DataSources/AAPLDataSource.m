@@ -463,7 +463,7 @@ static void *AAPLPerformUpdateQueueSpecificKey = "AAPLPerformUpdateQueueSpecific
     AAPLDataSourceSectionMetrics *defaultMetrics = (AAPLDataSourceSectionMetrics *)self.defaultMetrics;
 
     if (header) {
-        itemIndex = [_headers indexOfObject:supplementaryItem];
+        itemIndex = _headers == nil ? NSNotFound : [_headers indexOfObject:supplementaryItem];
         if (NSNotFound != itemIndex) {
             NSIndexPath *indexPath = rootDataSource ? [NSIndexPath indexPathWithIndex:itemIndex] : [NSIndexPath indexPathForItem:itemIndex inSection:0];
             return @[indexPath];
