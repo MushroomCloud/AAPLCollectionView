@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
  };
 
  */
-@property (copy, atomic) NSDictionary/*<NSString *, NSArray<NSString *> *>*/ *validTransitions;
+@property (copy, atomic) NSDictionary<NSString *, NSArray<NSString *> *> *validTransitions;
 
 /// If set, AAPLStateMachine invokes transition methods on this delegate instead of self. This allows AAPLStateMachine to be used where subclassing doesn't make sense. The delegate is invoked on the same thread as -setCurrentState:
 @property (nullable, weak, atomic) id<AAPLStateMachineDelegate> delegate;

@@ -30,7 +30,7 @@ typedef NS_ENUM(NSInteger, AAPLCellLayoutOrder) {
 @class AAPLDataSource;
 @class AAPLTheme;
 
-typedef void (^AAPLSupplementaryItemConfigurationBlock)(/*__kindof UICollectionReusableView **/id view, /*__kindof AAPLDataSource **/id dataSource, NSIndexPath *indexPath);
+typedef void (^AAPLSupplementaryItemConfigurationBlock)(__kindof UICollectionReusableView *view, __kindof AAPLDataSource *dataSource, NSIndexPath *indexPath);
 
 /// Definition of how supplementary views should be created and presented in a collection view.
 @interface AAPLSupplementaryItem : NSObject <NSCopying>

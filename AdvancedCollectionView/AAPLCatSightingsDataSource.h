@@ -10,7 +10,7 @@
 
 @class AAPLCat, AAPLCatSighting;
 
-@interface AAPLCatSightingsDataSource : AAPLBasicDataSource/*<AAPLCatSighting *>*/
+@interface AAPLCatSightingsDataSource : AAPLBasicDataSource<AAPLCatSighting *>
 
 - (instancetype)initWithCat:(AAPLCat *)cat NS_DESIGNATED_INITIALIZER;
 

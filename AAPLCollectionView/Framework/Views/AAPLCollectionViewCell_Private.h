@@ -39,7 +39,7 @@ typedef NS_ENUM(NSInteger, AAPLCollectionViewCellSwipeType) {
 - (BOOL)endSwipeWithPosition:(CGPoint)position;
 
 /// An array of AAPLAction instances that should be displayed when this cell has been swiped for editing.
-@property (nonatomic, copy) NSArray/*<AAPLAction *>*/ *editActions;
+@property (nonatomic, copy) NSArray<AAPLAction *> *editActions;
 
 /// The type of swipe, Primary or Secondary.
 @property (nonatomic) AAPLCollectionViewCellSwipeType swipeType;

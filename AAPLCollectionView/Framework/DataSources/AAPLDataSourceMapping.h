@@ -44,10 +44,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSIndexPath *)globalIndexPathForLocalIndexPath:(NSIndexPath *)localIndexPath;
 
 /// Return an array of local index paths from an array of global index paths
-- (NSArray/*<NSIndexPath *>*/ *)localIndexPathsForGlobalIndexPaths:(NSArray/*<NSIndexPath *>*/ *)globalIndexPaths;
+- (NSArray<NSIndexPath *> *)localIndexPathsForGlobalIndexPaths:(NSArray<NSIndexPath *> *)globalIndexPaths;
 
 /// Return an array of global index paths from an array of local index paths
-- (NSArray/*<NSIndexPath *>*/ *)globalIndexPathsForLocalIndexPaths:(NSArray/*<NSIndexPath *>*/ *)localIndexPaths;
+- (NSArray<NSIndexPath *> *)globalIndexPathsForLocalIndexPaths:(NSArray<NSIndexPath *> *)localIndexPaths;
 
 /// The block argument is called once for each mapped section and passed the global section index.
 - (void)updateMappingStartingAtGlobalSection:(NSInteger)globalSection withBlock:(void(^)(NSInteger globalSection))block;
@@ -62,9 +62,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface AAPLCollectionViewWrapper : NSObject
 
 /// Factory method that will determine whether the wrapper is measuring based on the collection view. If the collectionView is actually an instance of AAPLCollectionViewWrapper, the value will be pulled from the collectionView. Otherwise, the default is NO.
-+ (/*__kindof UIView **/id)wrapperForCollectionView:(UICollectionView *)collectionView mapping:(nullable AAPLDataSourceMapping *)mapping;
++ (__kindof UIView *)wrapperForCollectionView:(UICollectionView *)collectionView mapping:(nullable AAPLDataSourceMapping *)mapping;
 
-+ (/*__kindof UIView **/id)wrapperForCollectionView:(UICollectionView *)collectionView mapping:(nullable AAPLDataSourceMapping *)mapping measuring:(BOOL)measuring;
++ (__kindof UIView *)wrapperForCollectionView:(UICollectionView *)collectionView mapping:(nullable AAPLDataSourceMapping *)mapping measuring:(BOOL)measuring;
 
 @property (nonatomic, strong, readonly) UICollectionView *collectionView;
 @property (nullable, nonatomic, strong, readonly) AAPLDataSourceMapping *mapping;

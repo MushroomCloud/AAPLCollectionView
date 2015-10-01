@@ -27,9 +27,9 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface AAPLCollectionViewController (AAPLCollectionViewControllerEditingActions)
-- (void)swipeToDeleteCell:(/*__kindof UICollectionViewCell **/id)cell;
-- (void)didSelectActionFromCell:(/*__kindof UICollectionViewCell **/id)cell;
-- (void)presentAlertSheetFromCell:(/*__kindof UICollectionViewCell **/id)cell;
+- (void)swipeToDeleteCell:(__kindof UICollectionViewCell *)cell;
+- (void)didSelectActionFromCell:(__kindof UICollectionViewCell *)cell;
+- (void)presentAlertSheetFromCell:(__kindof UICollectionViewCell *)cell;
 @end
 
 

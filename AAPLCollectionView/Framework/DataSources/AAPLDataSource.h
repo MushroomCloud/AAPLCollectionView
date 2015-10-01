@@ -87,7 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
      }
 
  */
-@interface AAPLDataSource /*<ItemType : id>*/ : NSObject <UICollectionViewDataSource, AAPLContentLoading>
+@interface AAPLDataSource <ItemType : id> : NSObject <UICollectionViewDataSource, AAPLContentLoading>
 
 /// Designated initialiser for a data source.
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
@@ -105,19 +105,19 @@ NS_ASSUME_NONNULL_BEGIN
 - (AAPLDataSource *)dataSourceForSectionAtIndex:(NSInteger)sectionIndex;
 
 /// Find the item at the specified index path. Returns nil when indexPath does not specify a valid item in the data source.
-- (/*nullable ItemType*/id)itemAtIndexPath:(NSIndexPath *)indexPath;
+- (nullable ItemType)itemAtIndexPath:(NSIndexPath *)indexPath;
 
 /// Find the index paths of the specified item in the data source. An item may appear more than once in a given data source.
-- (NSArray/*<NSIndexPath *>*/*)indexPathsForItem:(/*ItemType*/id)item;
+- (NSArray<NSIndexPath *>*)indexPathsForItem:(ItemType)item;
 
 /// Remove an item from the data source. This method should only be called as the result of a user action, such as tapping the "Delete" button in a swipe-to-delete gesture. Automatic removal of items due to outside changes should instead be handled by the data source itself — not the controller. Data sources must implement this to support swipe-to-delete.
 - (void)removeItemAtIndexPath:(NSIndexPath *)indexPath;
 
 /// The primary actions that may be performed on the item at the given indexPath. These actions may change depending on the state of the item, therefore, they should not be cached except during presentation. These actions are shown on the right side of the cell. Default implementation returns an empty array.
-- (NSArray/*<AAPLAction *>*/ *)primaryActionsForItemAtIndexPath:(NSIndexPath *)indexPath;
+- (NSArray<AAPLAction *> *)primaryActionsForItemAtIndexPath:(NSIndexPath *)indexPath;
 
 /// Secondary actions that may be performed on the item at an index path. These actions may change depending on the state of the item, therefore, they should not be cached except during presentation. These actions are shown on the left side of the cell. Default implementation returns an empty array.
-- (NSArray/*<AAPLAction *>*/ *)secondaryActionsForItemAtIndexPath:(NSIndexPath *)indexPath;
+- (NSArray<AAPLAction *> *)secondaryActionsForItemAtIndexPath:(NSIndexPath *)indexPath;
 
 /// Called when a data source becomes active in a collection view. If the data source is in the `AAPLLoadStateInitial` state, it will be sent a `-loadContent` message.
 - (void)didBecomeActive NS_REQUIRES_SUPER;
@@ -137,11 +137,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)performUpdate:(dispatch_block_t)update;
 
 /// Notify the parent data source and the collection view that new items have been inserted at positions represented by insertedIndexPaths.
-- (void)notifyItemsInsertedAtIndexPaths:(NSArray/*<NSIndexPath *>*/ *)insertedIndexPaths;
+- (void)notifyItemsInsertedAtIndexPaths:(NSArray<NSIndexPath *> *)insertedIndexPaths;
 /// Notify the parent data source and collection view that the items represented by removedIndexPaths have been removed from this data source.
-- (void)notifyItemsRemovedAtIndexPaths:(NSArray/*<NSIndexPath *>*/ *)removedIndexPaths;
+- (void)notifyItemsRemovedAtIndexPaths:(NSArray<NSIndexPath *> *)removedIndexPaths;
 /// Notify the parent data sources and collection view that the items represented by refreshedIndexPaths have been updated and need redrawing.
-- (void)notifyItemsRefreshedAtIndexPaths:(NSArray/*<NSIndexPath *>*/ *)refreshedIndexPaths;
+- (void)notifyItemsRefreshedAtIndexPaths:(NSArray<NSIndexPath *> *)refreshedIndexPaths;
 /// Alert parent data sources and the collection view that the item at indexPath was moved to newIndexPath.
 - (void)notifyItemMovedFromIndexPath:(NSIndexPath *)indexPath toIndexPaths:(NSIndexPath *)newIndexPath;
 

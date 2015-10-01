@@ -9,7 +9,7 @@
 #import "AAPLBasicDataSource.h"
 @class AAPLCat;
 
-@interface AAPLCatListDataSource : AAPLBasicDataSource/*<AAPLCat *>*/
+@interface AAPLCatListDataSource : AAPLBasicDataSource<AAPLCat *>
 /// Is this list showing the favorites or all available cats?
 @property (nonatomic) BOOL showingFavorites;
 @end

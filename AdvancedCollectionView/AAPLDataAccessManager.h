@@ -14,9 +14,9 @@
 
 + (AAPLDataAccessManager *)manager;
 
-- (void)fetchCatListWithCompletionHandler:(void(^)(NSArray/*<AAPLCat *>*/ *cats, NSError *error))handler;
-- (void)fetchFavoriteCatListWithCompletionHandler:(void(^)(NSArray/*<AAPLCat *>*/ *cats, NSError *error))handler;
+- (void)fetchCatListWithCompletionHandler:(void(^)(NSArray<AAPLCat *> *cats, NSError *error))handler;
+- (void)fetchFavoriteCatListWithCompletionHandler:(void(^)(NSArray<AAPLCat *> *cats, NSError *error))handler;
 - (void)fetchDetailForCat:(AAPLCat *)cat completionHandler:(void(^)(AAPLCat *cat, NSError *error))handler;
-- (void)fetchSightingsForCat:(AAPLCat *)cat completionHandler:(void(^)(NSArray/*<AAPLCatSighting *>*/ *sightings, NSError *error))handler;
+- (void)fetchSightingsForCat:(AAPLCat *)cat completionHandler:(void(^)(NSArray<AAPLCatSighting *> *sightings, NSError *error))handler;
 
 @end

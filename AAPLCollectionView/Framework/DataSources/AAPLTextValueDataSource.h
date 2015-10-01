@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @note The text value data source only permits AAPLKeyValueItems with itemType values of AAPLKeyValueItemTypeDefault.
  */
-@interface AAPLTextValueDataSource/*<SourceType : id>*/ : AAPLKeyValueDataSource/*<SourceType>*/
+@interface AAPLTextValueDataSource<SourceType : id> : AAPLKeyValueDataSource<SourceType>
 @end
 
 
