@@ -87,7 +87,6 @@ static void *AAPLPerformUpdateQueueSpecificKey = "AAPLPerformUpdateQueueSpecific
         return nil;
 
     _defaultMetrics = [[AAPLDataSourceSectionMetrics alloc] init];
-    _allowsSelection = YES;
     return self;
 }
 
@@ -890,6 +889,11 @@ static void *AAPLPerformUpdateQueueSpecificKey = "AAPLPerformUpdateQueueSpecific
         [self dismissPlaceholderForSections:nil];
         self.placeholder = placeholder;
     }
+}
+
+- (BOOL)canSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
 }
 
 #if DEBUG

@@ -113,9 +113,12 @@
     _object = object;
     _titleColumnWidth = CGFLOAT_MIN;
 
-    self.allowsSelection = NO;
-
     return self;
+}
+
+- (BOOL)canSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return NO;
 }
 
 - (void)setObject:(id)object

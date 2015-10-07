@@ -182,6 +182,14 @@
     }];
 }
 
+- (BOOL)canSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    AAPLDataSource *datasource = [self dataSourceForSectionAtIndex:indexPath.section];
+    NSIndexPath *localIndexPath = [self localIndexPathForGlobalIndexPath:indexPath];
+    
+    return [datasource canSelectItemAtIndexPath:localIndexPath];
+}
+
 - (void)presentActivityIndicatorForSections:(NSIndexSet *)sections
 {
     // Based on the rule that if any child is loading, the composed data source is loading, we're going to expand the sections to cover the entire data source if any child asks for an activity indicator AND we're loading.

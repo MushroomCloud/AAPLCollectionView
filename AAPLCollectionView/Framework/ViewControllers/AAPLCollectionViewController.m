@@ -292,8 +292,7 @@ static void * const AAPLDataSourceContext = @"DataSourceContext";
     if (![dataSource isKindOfClass:[AAPLDataSource class]])
         return YES;
 
-    AAPLDataSource *sectionDataSource = [dataSource dataSourceForSectionAtIndex:indexPath.section];
-    return sectionDataSource.allowsSelection;
+    return [dataSource canSelectItemAtIndexPath:indexPath];
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -305,8 +304,7 @@ static void * const AAPLDataSourceContext = @"DataSourceContext";
     if (![dataSource isKindOfClass:[AAPLDataSource class]])
         return YES;
 
-    AAPLDataSource *sectionDataSource = [dataSource dataSourceForSectionAtIndex:indexPath.section];
-    return sectionDataSource.allowsSelection;
+    return [dataSource canSelectItemAtIndexPath:indexPath];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplaySupplementaryView:(UICollectionReusableView *)view forElementKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath

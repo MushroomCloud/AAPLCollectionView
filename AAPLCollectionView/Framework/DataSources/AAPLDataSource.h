@@ -125,8 +125,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// Called when a data source becomes inactive in a collection view
 - (void)willResignActive NS_REQUIRES_SUPER;
 
-/// Should this data source allow its items to be selected? The default value is YES.
-@property (nonatomic) BOOL allowsSelection;
+/// Should this data source allow this items to be selected? The default implementation returns YES.
+- (BOOL)canSelectItemAtIndexPath:(NSIndexPath *)indexPath;
 
 #pragma mark - Notifications
 

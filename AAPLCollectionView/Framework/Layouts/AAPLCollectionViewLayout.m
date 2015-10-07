@@ -795,7 +795,7 @@ typedef NS_ENUM(NSInteger, AAPLAutoScrollDirection) {
     {
         if ([preferredAttributes isKindOfClass:[AAPLCollectionViewLayoutAttributes class]])
         {
-            AAPLCollectionViewLayoutAttributes *attrs = preferredAttributes;
+            AAPLCollectionViewLayoutAttributes *attrs = (AAPLCollectionViewLayoutAttributes *)preferredAttributes;
             return [attrs shouldCalculateFittingSize];
         }
     }

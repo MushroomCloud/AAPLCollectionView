@@ -194,9 +194,9 @@ NSString * const AAPLSegmentedDataSourceHeaderKey = @"AAPLSegmentedDataSourceHea
     [_selectedDataSource willResignActive];
 }
 
-- (BOOL)allowsSelection
+- (BOOL)canSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [_selectedDataSource allowsSelection];
+    return [_selectedDataSource canSelectItemAtIndexPath:indexPath];
 }
 
 - (void)configureSegmentedControl:(UISegmentedControl *)segmentedControl
