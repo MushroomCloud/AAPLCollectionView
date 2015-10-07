@@ -791,7 +791,15 @@ typedef NS_ENUM(NSInteger, AAPLAutoScrollDirection) {
 - (BOOL)shouldInvalidateLayoutForPreferredLayoutAttributes:(UICollectionViewLayoutAttributes *)preferredAttributes withOriginalAttributes:(UICollectionViewLayoutAttributes *)originalAttributes
 {
     // invalidate if the cell changed height
-    return (CGRectGetHeight(preferredAttributes.frame) != CGRectGetHeight(originalAttributes.frame));
+    if (CGRectGetHeight(preferredAttributes.frame) != CGRectGetHeight(originalAttributes.frame))
+    {
+        if ([preferredAttributes isKindOfClass:[AAPLCollectionViewLayoutAttributes class]])
+        {
+            AAPLCollectionViewLayoutAttributes *attrs = preferredAttributes;
+            return [attrs shouldCalculateFittingSize];
+        }
+    }
+    return NO;
 }
 
 #if SUPPORTS_SELFSIZING
