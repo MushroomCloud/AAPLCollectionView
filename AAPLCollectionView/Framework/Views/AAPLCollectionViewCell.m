@@ -54,6 +54,8 @@
 /// Flag from attributes
 @property (nonatomic) BOOL movable;
 
+- (void)setupCollectionViewCell;
+
 - (void)performAction:(AAPLAction *)action;
 - (void)performMoreAction;
 
@@ -454,59 +456,71 @@
     if (!self)
         return nil;
 
+    [self setupCollectionViewCell];
+    
+    return self;
+}
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    [self setupCollectionViewCell];
+}
+
+- (void)setupCollectionViewCell
+{
     // We default to showing the reorder control unless we're told not to.
     _showsReorderControl = YES;
-
+    
     // We don't get background or selectedBackground views unless we create them!
     self.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
     self.selectedBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
     // reset layout margins
     self.layoutMargins = UIEdgeInsetsMake(8, 15, 8, 15);
-
+    
     UIView *contentView = [super contentView];
-
+    
     _privateContentView = [[UIView alloc] initWithFrame:contentView.bounds];
     _privateContentView.translatesAutoresizingMaskIntoConstraints = NO;
     [contentView addSubview:_privateContentView];
-
+    
     NSMutableArray *constraints = [NSMutableArray array];
-
+    
     _editActionsView = [[AAPLActionsView alloc] initWithFrame:CGRectZero cell:self];
     _editActionsView.translatesAutoresizingMaskIntoConstraints = NO;
-
+    
     [constraints addObject:[NSLayoutConstraint constraintWithItem:_privateContentView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:contentView attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
-
+    
     _contentHeightConstraint = [NSLayoutConstraint constraintWithItem:_privateContentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:contentView attribute:NSLayoutAttributeHeight multiplier:1 constant:0];
     [constraints addObject:_contentHeightConstraint];
-
+    
     _contentWidthConstraint = [NSLayoutConstraint constraintWithItem:_privateContentView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:contentView attribute:NSLayoutAttributeWidth multiplier:1 constant:0];
     [constraints addObject:_contentWidthConstraint];
-
+    
     _contentLeftConstraint = [NSLayoutConstraint constraintWithItem:_privateContentView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:contentView attribute:NSLayoutAttributeLeft multiplier:1 constant:0];
     [constraints addObject:_contentLeftConstraint];
-
+    
     [contentView addConstraints:constraints];
-
+    
     _topHairline = [AAPLHairlineView hairlineViewForAlignment:AAPLHairlineAlignmentHorizontal];
     _topHairline.translatesAutoresizingMaskIntoConstraints = NO;
     _topHairline.alpha = 0;
-
+    
     _bottomHairline = [AAPLHairlineView hairlineViewForAlignment:AAPLHairlineAlignmentHorizontal];
     _bottomHairline.translatesAutoresizingMaskIntoConstraints = NO;
     _bottomHairline.alpha = 0;
-
+    
     _removeImageView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"AAPLRemoveControl"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
     _removeImageView.translatesAutoresizingMaskIntoConstraints = NO;
     [_removeImageView setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     [_removeImageView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
-
+    
     _reorderImageView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"AAPLDragGrabber"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
     _reorderImageView.translatesAutoresizingMaskIntoConstraints = NO;
     [_reorderImageView setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     [_reorderImageView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
-
+    
     contentView.clipsToBounds = YES;
-    return self;
 }
 
 - (void)prepareForReuse
@@ -565,11 +579,6 @@
 
     CGRect rect = [self convertRect:_editActionsView.bounds fromView:_editActionsView];
     return rect;
-}
-
-- (UIView *)contentView
-{
-    return _privateContentView;
 }
 
 - (CGFloat)minimumSwipeTrackingPosition
