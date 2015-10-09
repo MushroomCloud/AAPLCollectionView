@@ -220,8 +220,12 @@ NSInteger const AAPLGlobalSectionIndex = NSIntegerMax;
         unsigned char numberOfColumns : 1;
         unsigned char theme : 1;
         unsigned char padding : 1;
+        unsigned char layoutMargins : 1;
         unsigned char showsRowSeparator : 1;
         unsigned char showsColumnSeparator : 1;
+        unsigned char separatorInsets : 1;
+        unsigned char sectionSeparatorInsets : 1;
+        unsigned char cellLayoutOrder : 1;
     } _flags;
 }
 
@@ -255,6 +259,7 @@ NSInteger const AAPLGlobalSectionIndex = NSIntegerMax;
     metrics->_separatorInsets = _separatorInsets;
     metrics->_backgroundColor = _backgroundColor;
     metrics->_selectedBackgroundColor = _selectedBackgroundColor;
+    metrics->_layoutMargins = _layoutMargins;
     metrics->_separatorColor = _separatorColor;
     metrics->_sectionSeparatorColor = _sectionSeparatorColor;
     metrics->_sectionSeparatorInsets = _sectionSeparatorInsets;
@@ -311,6 +316,11 @@ NSInteger const AAPLGlobalSectionIndex = NSIntegerMax;
     AAPL_SET_PROP_AND_FLAG(padding, padding);
 }
 
+- (void)setLayoutMargins:(UIEdgeInsets)layoutMargins
+{
+    AAPL_SET_PROP_AND_FLAG(layoutMargins, layoutMargins);
+}
+
 - (void)setTheme:(AAPLTheme *)theme
 {
     AAPL_SET_PROP_AND_FLAG(theme, theme);
@@ -331,6 +341,21 @@ NSInteger const AAPLGlobalSectionIndex = NSIntegerMax;
     AAPL_SET_PROP_AND_FLAG(showsSectionSeparator, showsSectionSeparator);
 }
 
+- (void)setSeparatorInsets:(UIEdgeInsets)separatorInsets
+{
+    AAPL_SET_PROP_AND_FLAG(separatorInsets, separatorInsets);
+}
+
+- (void)setSectionSeparatorInsets:(UIEdgeInsets)sectionSeparatorInsets
+{
+    AAPL_SET_PROP_AND_FLAG(sectionSeparatorInsets, sectionSeparatorInsets);
+}
+
+- (void)setCellLayoutOrder:(AAPLCellLayoutOrder)cellLayoutOrder
+{
+    AAPL_SET_PROP_AND_FLAG(cellLayoutOrder, cellLayoutOrder);
+}
+
 - (void)applyValuesFromMetrics:(AAPLSectionMetrics *)metrics
 {
     if (!metrics)
@@ -344,6 +369,7 @@ NSInteger const AAPLGlobalSectionIndex = NSIntegerMax;
 
     AAPL_COPY_PROP_FROM_TO(rowHeight, metrics, self);
     AAPL_COPY_PROP_FROM_TO(estimatedRowHeight, metrics, self);
+    AAPL_COPY_PROP_FROM_TO(layoutMargins, metrics, self);
     AAPL_COPY_PROP_FROM_TO(numberOfColumns, metrics, self);
     AAPL_COPY_PROP_FROM_TO(backgroundColor, metrics, self);
     AAPL_COPY_PROP_FROM_TO(selectedBackgroundColor, metrics, self);
@@ -355,6 +381,9 @@ NSInteger const AAPLGlobalSectionIndex = NSIntegerMax;
     AAPL_COPY_PROP_FROM_TO(showsRowSeparator, metrics, self);
     AAPL_COPY_PROP_FROM_TO(showsColumnSeparator, metrics, self);
     AAPL_COPY_PROP_FROM_TO(showsSectionSeparator, metrics, self);
+    AAPL_COPY_PROP_FROM_TO(separatorInsets, metrics, self)
+    AAPL_COPY_PROP_FROM_TO(sectionSeparatorInsets, metrics, self)
+    AAPL_COPY_PROP_FROM_TO(cellLayoutOrder, metrics, self)
 }
 
 - (void)resolveMissingValuesFromTheme
