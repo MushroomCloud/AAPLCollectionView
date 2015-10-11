@@ -470,7 +470,7 @@ static void *AAPLPerformUpdateQueueSpecificKey = "AAPLPerformUpdateQueueSpecific
 
         NSInteger numberOfGlobalHeaders = (NSInteger)_headers.count;
 
-        itemIndex = [defaultMetrics.headers indexOfObject:supplementaryItem];
+        itemIndex = defaultMetrics.headers == nil ? NSNotFound : [defaultMetrics.headers indexOfObject:supplementaryItem];
         if (NSNotFound != itemIndex) {
             NSMutableArray *result = [NSMutableArray array];
 
@@ -493,7 +493,7 @@ static void *AAPLPerformUpdateQueueSpecificKey = "AAPLPerformUpdateQueueSpecific
         // If the supplementary metrics exist, it's in one of the section metrics. However, it **might** simply not exist.
         [_sectionMetrics enumerateKeysAndObjectsUsingBlock:^(NSNumber *sectionNumber, AAPLDataSourceSectionMetrics *sectionMetrics, BOOL *stop) {
             NSInteger sectionIndex = [sectionNumber integerValue];
-            itemIndex = [sectionMetrics.headers indexOfObject:supplementaryItem];
+            itemIndex = sectionMetrics.headers == nil ? NSNotFound : [sectionMetrics.headers indexOfObject:supplementaryItem];
 
             if (NSNotFound == itemIndex)
                 return;
@@ -514,7 +514,7 @@ static void *AAPLPerformUpdateQueueSpecificKey = "AAPLPerformUpdateQueueSpecific
     else {
         NSInteger numberOfGlobalFooters = 0;
 
-        itemIndex = [defaultMetrics.footers indexOfObject:supplementaryItem];
+        itemIndex = defaultMetrics.footers == nil ? NSNotFound : [defaultMetrics.footers indexOfObject:supplementaryItem];
         if (NSNotFound != itemIndex) {
             NSMutableArray *result = [NSMutableArray array];
 
