@@ -483,6 +483,7 @@
     _privateContentView = [[UIView alloc] initWithFrame:contentView.bounds];
     _privateContentView.translatesAutoresizingMaskIntoConstraints = NO;
     [contentView addSubview:_privateContentView];
+    [contentView sendSubviewToBack:_privateContentView];
     
     NSMutableArray *constraints = [NSMutableArray array];
     
