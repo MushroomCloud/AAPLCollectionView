@@ -48,14 +48,6 @@
     return self;
 }
 
-- (void)prepareForReuse
-{
-    [super prepareForReuse];
-    self.layoutMargins = self.defaultLayoutMargins;
-    _pinned = NO;
-    _pinnedBackgroundColor = nil;
-}
-
 - (void)setTheme:(AAPLTheme *)theme
 {
     if (_theme == theme)
